@@ -89,11 +89,21 @@ void on_deviceorientation(orientation){
   nX = ((orientation.beta / 90) || orientation.x);
   nY = ((orientation.gamma / 90) || orientation.y);
 
-  if (window.orientation == -90)
-    nX = nX * -1;
+  // Flip directions when in portrait mode.
+  if (window.orientation == 0 || window.orientation == 180)
+  {
+    tempX = nX;
+    nX = nY;
+    nY = tempX;
+  }
 
-  if (window.orientation == 90)
-    nY = nY * -1;
+  nX = nX * -1;
+
+  if (window.orientation == 0)
+    nX *= -1;
+
+  if (window.orientation == 180)
+    nY *= -1;
 
   nX = ((nX + 1) / 2) * width;
   nY = ((nY + 1) / 2) * height;

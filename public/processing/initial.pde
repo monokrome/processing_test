@@ -1,7 +1,8 @@
- 
+
 // Global variables
 float alpha = 0.0f, gamma = 0.0f, beta = 0.0f;
-bool has_motion = false;
+float last_orientation = 0.0f;
+bool has_motion = (typeof window.orientation != 'undefined');
 
 float radius = 50.0;
 
@@ -23,7 +24,6 @@ void setup(){
 
 // Main draw loop
 void draw(){
-  
   radius = radius + sin( frameCount / 4 );
   
   // Track circle to new destination
@@ -63,16 +63,37 @@ void on_resize(){
 }
 
 void on_deviceorientation(orientation){
-  if (!has_motion && !(orientation.gamma || orientation.x) || !orientation.alpha)
-    return;
+  if (!has_motion)
+    return
 
-  has_motion = true;
+  if (window.orientation != last_orientation)
+  {
+    window.scrollTo(0, 1);
+    last_orientation = window.orientation;
+  }
+
+  // window.orientation provides the following values depending on the
+  // device's orientation:
+  //
+  //     0 = Standard portrait
+  //     90 = Standard landscape
+  //     180 = Inverted portrait
+  //     -90 = Inverted landscape
 
   // Takes gamma/beta orientation-types and normalizes them to x/y (-1 to 1) types.
   // Follows this by converting this to a value between 0 and 2, and then converting
   // that result to a result between 0 and 1 by dividing it by two. After this,
   // multiplies this value as a scalar to the screen size. This effectively results in
   // translating the tilt of the device into screen pixels.
-  nX = ((((orientation.beta / 90) || orientation.x) + 1) / 2) * width;
-  nY = (((((orientation.gamma / 90) || orientation.y) * -1) + 1) / 2) * height;
+  nX = ((orientation.beta / 90) || orientation.x);
+  nY = ((orientation.gamma / 90) || orientation.y);
+
+  if (window.orientation == -90)
+    nX = nX * -1;
+
+  if (window.orientation == 90)
+    nY = nY * -1;
+
+  nX = ((nX + 1) / 2) * width;
+  nY = ((nY + 1) / 2) * height;
 }

@@ -50,5 +50,5 @@ void mouseMoved(){
 // with the same name as the event, prefixed with on_. For instance, the
 // following will be called whenever the browser is resized:
 void on_resize(){
-  size( screen.width, screen.height );
+  size( window.innerWidth, window.innerHeight );
 }

@@ -69,6 +69,7 @@ void on_deviceorientation(orientation){
   if (window.orientation != last_orientation)
   {
     window.scrollTo(0, 1);
+    on_resize();
     last_orientation = window.orientation;
   }
 

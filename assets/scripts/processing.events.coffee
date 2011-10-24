@@ -1,4 +1,4 @@
-events = ['resize', 'deviceorientation']
+events = ['resize', 'deviceorientation', 'MozOrientation']
 handler_prefix = 'on_'
 registered_instances = []
 

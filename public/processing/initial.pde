@@ -8,11 +8,15 @@ float radius = 50.0;
 
 int X, Y;
 int nX, nY;
+
 int delay = 16;
 
 // Setup the Processing Canvas
 void setup(){
   on_resize();
+
+  if (has_motion)
+    delay = delay * 1.2;
 
   strokeWeight( 10 );
   frameRate( 15 );
